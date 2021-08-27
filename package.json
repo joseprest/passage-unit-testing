@@ -5,6 +5,8 @@
     "test": "echo \"This template does not include a test runner by default.\" && exit 1"
   },
   "dependencies": {
+    "line-height": "^0.3.1",
+    "sass": "^1.38.1",
     "vue": "^3.0.11"
   },
   "devDependencies": {
