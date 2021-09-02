@@ -12,7 +12,7 @@ export default {
   },
   inject: ['readingPassage'],
   props: ['every', 'testContentInjector'],
-  methods: {
+  computed: {
     lines() {
       // line calc requires mounted DOM
       const $content = this.$refs.content
@@ -110,7 +110,7 @@ export default {
 <template>
   <div class="reading-passage">
     <div class="line-numbers">
-      <div v-for="line in lines()" v-bind:key="line">{{ line }}</div>
+      <div v-for="line in lines" v-bind:key="line">{{ line }}</div>
     </div>
     <div class="content" ref="content">
       <slot></slot>
@@ -140,6 +140,7 @@ export default {
 }
 
 .content {
+  height: 100%;
   margin: 0;
   padding-left: 1em;
 
