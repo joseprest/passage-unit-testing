@@ -1,11 +1,12 @@
 {
   "scripts": {
-    "start": "snowpack dev",
+    "build-storybook": "build-storybook",
     "build": "snowpack build",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "chromatic": "npx chromatic --project-token=b5fc8e92e27c",
+    "start": "snowpack dev",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "test:watch": "jest --watch",
+    "test": "jest",
   },
   "dependencies": {
     "@juggle/resize-observer": "^3.3.1",
@@ -32,6 +33,7 @@
     "@vue/test-utils": "^2.0.0-rc.13",
     "babel-jest": "26",
     "babel-loader": "^8.2.2",
+    "chromatic": "^5.9.2",
     "jest": "^26.3.3",
     "rollup": "^2.56.3",
     "snowpack": "^3.3.7",
