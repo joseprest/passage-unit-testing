@@ -6,7 +6,7 @@
     "start": "snowpack dev",
     "storybook": "start-storybook -p 6006",
     "test:watch": "jest --watch",
-    "test": "jest",
+    "test": "jest"
   },
   "dependencies": {
     "@juggle/resize-observer": "^3.3.1",
