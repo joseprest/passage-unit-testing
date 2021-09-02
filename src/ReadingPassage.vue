@@ -1,29 +1,17 @@
-<template>
-  <div class="reading-passage">
-    <div class="line-numbers" v-if="showLineNumbers">
-      <div v-for="line in lines()" v-bind:key="line">{{ line }}</div>
-    </div>
-    <div class="content" ref="content">
-      <slot></slot>
-    </div>
-  </div>
-</template>
-
 <script>
 import getLineHeight from 'line-height'
 import { ResizeObserver } from '@juggle/resize-observer'
 
 export default {
-  props: ['every', 'testContentInjector'],
-  inject: ['readingPassage'],
   data() {
     return {
-      showLineNumbers: true,
       isMounted: false,
       contentHeight: 0,
       lineHeight: 0,
     }
   },
+  inject: ['readingPassage'],
+  props: ['every', 'testContentInjector'],
   methods: {
     lines() {
       // line calc requires mounted DOM
@@ -86,34 +74,28 @@ export default {
     const updateView = () => {
       this.lineHeight = getLineHeight($content)
       this.contentHeight = $content.offsetHeight
-      this.showLineNumbers = true
       updateLineRefs()
-      this.$forceUpdate()
     }
 
-    const updateDimensions = debounceWithLeading(
-      () => {
-        this.showLineNumbers = false
-      },
-      () => {
-        updateView()
-        this.$forceUpdate()
-      },
-      50
-    )
+    let animationId
+    const requestUpdate = () => {
+      if (animationId) {
+        window.cancelAnimationFrame(animationId)
+      }
+      animationId = window.requestAnimationFrame(updateView)
+    }
 
     const observeContentHeight = () => {
-      const observeContentHeight = (entries) => {
+      const resizeObserver = new ResizeObserver((entries) => {
         for (let entry of entries) {
-          let newWidth = this.contentHeight
-          // Safari, then Chrome
-          newWidth =
-            entry.contentRect?.width || entry.contentBoxSize[0].blockSize
-          if (newWidth !== this.contentHeight) updateDimensions()
+          const newWidth = entry.contentBoxSize[0].blockSize
+          if (newWidth !== this.contentHeight) {
+            requestUpdate()
+          }
         }
-      }
-      const resizeObserver = new ResizeObserver(observeContentHeight)
+      })
       resizeObserver.observe(this.$refs.content)
+
       return () => {
         resizeObserver.disconnect()
       }
@@ -123,18 +105,18 @@ export default {
     return observeContentHeight()
   },
 }
-
-function debounceWithLeading(leadingFunc, debounceFunc, timeout = 300) {
-  let timer
-  return (...args) => {
-    clearTimeout(timer)
-    leadingFunc.apply(this, args)
-    timer = setTimeout(() => {
-      debounceFunc.apply(this, args)
-    }, timeout)
-  }
-}
 </script>
+
+<template>
+  <div class="reading-passage">
+    <div class="line-numbers">
+      <div v-for="line in lines()" v-bind:key="line">{{ line }}</div>
+    </div>
+    <div class="content" ref="content">
+      <slot></slot>
+    </div>
+  </div>
+</template>
 
 <style>
 .content {
