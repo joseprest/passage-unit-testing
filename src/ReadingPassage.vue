@@ -60,21 +60,21 @@ export default {
       this.testContentInjector.call(this, $content)
     }
 
-    const updateLineRefs = () => {
-      const $refs = $content.querySelectorAll('a[id]')
-      this.readingPassage.reset()
-      $refs.forEach(($ref) => {
-        const refOffset = $ref.offsetTop
-        const contentOffset = $content.offsetTop
-        const line = (refOffset - contentOffset) / this.lineHeight + 1
-        this.readingPassage.update($ref.getAttribute('id'), Math.round(line))
-      })
-    }
+    // TODO: move responsibility to update line refs out of here
+    // const updateLineRefs = () => {
+    //   const $refs = $content.querySelectorAll('a[id]')
+    //   this.readingPassage.reset()
+    //   $refs.forEach(($ref) => {
+    //     const refOffset = $ref.offsetTop
+    //     const contentOffset = $content.offsetTop
+    //     const line = (refOffset - contentOffset) / this.lineHeight + 1
+    //     this.readingPassage.update($ref.getAttribute('id'), Math.round(line))
+    //   })
+    // }
 
     const updateView = () => {
       this.lineHeight = getLineHeight($content)
       this.contentHeight = $content.offsetHeight
-      updateLineRefs()
     }
 
     let animationId

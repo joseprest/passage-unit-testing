@@ -21,6 +21,12 @@ Run jest component unit tests.
 Builds the app for production to the `build/` folder.
 It correctly bundles Vue in production mode and optimizes the build for the best performance.
 
+### yarn storybook
+
+For Vue component development outside of the entire full-stack app.
+
+Create a story for each component that is being worked on. And some stories can be used for multi-component testing.
+
 ### Q: What about Eject?
 
 No eject needed! Snowpack guarantees zero lock-in, and CSA strives for the same.
