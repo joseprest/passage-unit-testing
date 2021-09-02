@@ -119,32 +119,36 @@ export default {
 </template>
 
 <style>
+.reading-passage {
+  display: flex;
+}
+
+.line-numbers {
+  flex: 0 0;
+  height: 100%;
+
+  color: grey;
+  font-size: 16px;
+  font-style: italic;
+  line-height: 20px;
+  text-align: right;
+  user-select: none;
+}
+
+.line-numbers div {
+  min-height: 20px;
+}
+
 .content {
-  max-width: 600px;
-  padding: 0 8em;
+  margin: 0;
+  padding-left: 1em;
+
   font-size: 20px;
   line-height: 20px;
-  margin: 0;
 }
 
 .content p {
   text-indent: 1em;
   margin: 0;
-}
-
-.line-numbers {
-  user-select: none;
-  position: absolute;
-  left: 100px;
-  height: 100%;
-  font-style: italic;
-  color: grey;
-  text-align: right;
-  font-size: 16px;
-  line-height: 20px;
-}
-
-.line-numbers div {
-  min-height: 20px;
 }
 </style>
