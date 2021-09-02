@@ -1,9 +1,7 @@
 <template>
   <div class="reading-passage">
     <div class="line-numbers" v-if="showLineNumbers">
-      <div v-for="line in lines()" v-bind:key="line">
-        {{ line }}
-      </div>
+      <div v-for="line in lines()" v-bind:key="line">{{ line }}</div>
     </div>
     <div class="content" ref="content">
       <slot></slot>
@@ -13,9 +11,10 @@
 
 <script>
 import getLineHeight from 'line-height'
+import { ResizeObserver } from '@juggle/resize-observer'
 
 export default {
-  props: ['every'],
+  props: ['every', 'testContentInjector'],
   inject: ['readingPassage'],
   data() {
     return {
@@ -29,7 +28,9 @@ export default {
     lines() {
       // line calc requires mounted DOM
       const $content = this.$refs.content
-      if (!this.isMounted || !$content) return
+      if (!this.isMounted || !$content) {
+        return
+      }
 
       const every = this.every ?? 1
       const byLine = every !== 'p'
@@ -41,13 +42,14 @@ export default {
         Array.from({ length: lineCount }, (_, i) => i + 1).filter(
           (i) => !(i % every)
         )
-      const markOffset = (offset, value) => (lines[offset - 1] = value)
+      const markOffset = (offset, value) => (lines[offset - 1] = String(value))
 
       const paragraphLineNumbers = () =>
         // find all paragraphs
         Array.from($content.getElementsByTagName('p'))
           // get distance from top of content
           .map(($p) => $p.offsetTop - $content.offsetTop)
+
           // calculate how many lines down it is
           .map((p) => p / this.lineHeight + 1)
 
@@ -58,18 +60,21 @@ export default {
           markOffset(offset, index + 1)
         )
       }
-
       return lines
     },
   },
   mounted() {
-    const $content = this.$refs.content
-    this.contentHeight = $content.offsetHeight
     this.isMounted = true
-    this.lineHeight = getLineHeight($content)
+    const $content = this.$refs.content
+
+    // hook for testing different content
+    if (this.testContentInjector) {
+      this.testContentInjector.call(this, $content)
+    }
 
     const updateLineRefs = () => {
       const $refs = $content.querySelectorAll('a[id]')
+      this.readingPassage.reset()
       $refs.forEach(($ref) => {
         const refOffset = $ref.offsetTop
         const contentOffset = $content.offsetTop
@@ -83,6 +88,7 @@ export default {
       this.contentHeight = $content.offsetHeight
       this.showLineNumbers = true
       updateLineRefs()
+      this.$forceUpdate()
     }
 
     const updateDimensions = debounceWithLeading(
@@ -90,10 +96,8 @@ export default {
         this.showLineNumbers = false
       },
       () => {
-        window.requestAnimationFrame(() => {
-          updateView()
-          this.$forceUpdate()
-        })
+        updateView()
+        this.$forceUpdate()
       },
       50
     )
@@ -102,11 +106,9 @@ export default {
       const observeContentHeight = (entries) => {
         for (let entry of entries) {
           let newWidth = this.contentHeight
-          if (entry.contentRect) {
-            newWidth = entry.contentRect.width
-          } else {
-            newWidth = entry.contentBoxSize[0].blockSize
-          }
+          // Safari, then Chrome
+          newWidth =
+            entry.contentRect?.width || entry.contentBoxSize[0].blockSize
           if (newWidth !== this.contentHeight) updateDimensions()
         }
       }
@@ -117,6 +119,7 @@ export default {
       }
     }
 
+    updateView()
     return observeContentHeight()
   },
 }
@@ -133,18 +136,18 @@ function debounceWithLeading(leadingFunc, debounceFunc, timeout = 300) {
 }
 </script>
 
-<style lang="scss">
+<style>
 .content {
   max-width: 600px;
   padding: 0 8em;
   font-size: 20px;
   line-height: 20px;
   margin: 0;
+}
 
-  p {
-    text-indent: 1em;
-    margin: 0;
-  }
+.content p {
+  text-indent: 1em;
+  margin: 0;
 }
 
 .line-numbers {
@@ -157,8 +160,9 @@ function debounceWithLeading(leadingFunc, debounceFunc, timeout = 300) {
   text-align: right;
   font-size: 16px;
   line-height: 20px;
-  div {
-    min-height: 20px;
-  }
+}
+
+.line-numbers div {
+  min-height: 20px;
 }
 </style>

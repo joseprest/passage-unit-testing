@@ -1,7 +1,10 @@
 <template>
+  <div>
     <Question>
       <p>
-      In the paragraph on line <ReadingPassageReference snippet-id="text-ref"/>, it says "scarlet-liveried". What does that mean?
+        In the paragraph on line
+        <ReadingPassageReference snippet-id="text-ref" />, it says
+        "scarlet-liveried". What does that mean?
       </p>
     </Question>
     <ReadingPassage>
@@ -27,7 +30,7 @@
 
       <p>
         All her invitations without exception, written in French, and delivered
-        by a <a id="text-ref">scarlet-liveried</a> footman that morning, ran as
+        by a <a id="text-ref"></a>scarlet-liveried footman that morning, ran as
         follows:
       </p>
 
@@ -69,26 +72,38 @@
         me to take me there."
       </p>
     </ReadingPassage>
+  </div>
 </template>
 
 <script>
 import ReadingPassage from './ReadingPassage.vue'
 import ReadingPassageReference from './ReadingPassageReference.vue'
 
-import { reactive, readonly } from "vue";
+import { reactive } from 'vue'
 
 const state = reactive({
   'text-ref': 5,
 })
-const update = (k,v) => state[k] = v
+const update = (k, v) => (state[k] = v)
 
 export default {
   components: {
     ReadingPassage,
     ReadingPassageReference,
   },
+  mounted() {
+    window.editorChanged = (text) => {
+      this.sampleText = text
+    }
+  },
   provide: {
-    readingPassage: { state: readonly(state), update}
+    readingPassage: reactive({
+      state,
+      update,
+      reset() {
+        this.state = reactive({})
+      },
+    }),
   },
 }
 </script>
