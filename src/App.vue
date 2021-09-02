@@ -1,12 +1,5 @@
 <template>
   <div>
-    <Question>
-      <p>
-        In the paragraph on line
-        <ReadingPassageReference snippet-id="text-ref" />, it says
-        "scarlet-liveried". What does that mean?
-      </p>
-    </Question>
     <ReadingPassage>
       <p id="p1">
         "Well, Prince, so Genoa and Lucca are now just family estates of the
