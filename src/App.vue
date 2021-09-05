@@ -1,6 +1,10 @@
 <template>
   <div>
-    <ReadingPassage>
+    <Question>
+      On line <PassageReference refId="text-ref"/>, the author talks about something.
+      What do they mean?
+    </Question>
+    <ReadingPassage every='5'>
       <p id="p1">
         "Well, Prince, so Genoa and Lucca are now just family estates of the
         Buonapartes. But I warn you, if you don't tell me that this means war,

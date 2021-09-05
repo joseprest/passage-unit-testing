@@ -34,6 +34,33 @@ No eject needed! Snowpack guarantees zero lock-in, and CSA strives for the same.
 
 ---
 
+On line <a href="#passageRef:text-ref"/>, the author talks about something.
+What do they mean?
+
+- PassageContainer??
+  - PassageText
+    - PassageAnchor (<a> tag inside the PassageText)
+  - PassageQuestion
+    - PassageReference
+
+Requirements to implement:
+
+1. Shared State so the <PassageReference> can lookup the line or paragraph
+number from the <PassageText> - either VueX or Provide/Inject
+
+2. To identify the storage format for the <PassageReference> in the HTML stored
+in the database.
+
+On line <a href="#passageRef:text-ref"/>, the author talks about something.
+
+=> replaced with
+
+On line <PassageReference refId="text-ref"/>, the author talks about something.
+
+-  in the PassageText line mode the PassageReference refers to line
+
+---
+
 Here's a sample problem I'm working on you could give some input on.
 - Requirement:
 - As a test creator, I would like to create a reference to a highlighted part of the reading passage.

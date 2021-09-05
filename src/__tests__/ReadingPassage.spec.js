@@ -6,6 +6,7 @@ const redefineProperty = ($el, propertyName, value) => {
   Object.defineProperty($el, propertyName, { writable: true })
   $el[propertyName] = value
 }
+
 const makeTestContentInjector = (contentText) => {
   return ($content) => {
     $content.style.setProperty('line-height', '20px')

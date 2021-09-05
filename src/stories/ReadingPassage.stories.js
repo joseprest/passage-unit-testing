@@ -1,3 +1,4 @@
+import { VueElement } from 'vue';
 import ReadingPassage from '../ReadingPassage.vue';
 
 export default {
@@ -19,22 +20,25 @@ const Template = (args) => ({
     },
     // And then the `args` are bound to your component with `v-bind="args"`
     template: `
-<reading-passage v-bind="args">
-<p>this is 1</p>
-<p>this is 2</p>
-<p>this is 3<br>and long</p>
-<p>this is 4</p>
-<p>this is 5</p>
-<p>this is 6</p>
-</reading-passage>
+<ReadingPassage v-bind="args">
+<p>Line 1: good</p>
+<p>Line 2: abso-<br>lutely</p>
+<p>Line 3: free</p>
+<p>Line 4: snore</p>
+<p>Line 5: alive</p>
+<p>Line 6: drips</p>
+</ReadingPassage>
 `,
 });
 
-export const EveryLine = Template.bind({});
+export const EveryLine = Template.bind({
+    slots: { default: 'test'}
+});
 
 export const EveryFiveLines = Template.bind({});
 EveryFiveLines.args = {
     every: 5,
+
 };
 
 export const EveryParagraph = Template.bind({});
