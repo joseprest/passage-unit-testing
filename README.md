@@ -1,35 +1,40 @@
-# New Project
+User Stories
 
-yarn install
+- As a test creator, I would like to create a reference to a highlighted part of the reading passage.
+- The reading passage is a text that students read and later answer questions on.
+- For example the reading passage would be on the left and the line reference would be in the question on the right side.
 
-## Available Scripts
+Example from the Student/Test Taker point of view:
+- highlight + lines show the relationship between the ReadingPassageReference component in the Question
+- ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Fmy-testing%2Fm9CSoXpVDH.png?alt=media&token=078dae69-ccaa-45c1-b53a-a652dbb6857f)
+- The linked page reference would be updated if the width of the content div is updated so the line numbers would line up.
+- When editing the question using TinyMCE the user would like to be able to click the "Create Passage Reference" button (implemented as a TinyMCE plugin) to insert a page reference to the currently highlighted text. If the text was not already highlighted, alert the user to try again with selected text.
+- For Discussion
+- What approach would you use to communicate between the different components involved?
+- What kinds of challenges, approaches or alternatives would you recommend?
+- How much effort is required to implement this? What parts would take the longest
 
-### yarn start
+# Example
 
-Runs the app in the development mode.
-Open http://localhost:8080 to view it in the browser.
+Reading Passage
+---
 
-The page will reload if you make edits.
-You will also see any lint errors in the console.
+"Well, Prince, so Genoa and Lucca are now just family estates of the Buonapartes. But I warn you, if you don't tell me that this means war, if you still try to defend the infamies and horrors perpetrated by that Antichrist--I really believe he is Antichrist--I will have nothing more to do with you and you are no longer my friend, no longer my 'faithful slave,' as you call yourself! But how do you do? I see I have frightened you--sit down and tell me all the news."
 
-### yarn test
+Question Editor:
+---
 
-Run jest component unit tests.
+One line #{INSERT LINE REFERENCE} "scarlet-liveried" most nearly means. ??
 
-### yarn run build
+A
+B
+C
+D
 
-Builds the app for production to the `build/` folder.
-It correctly bundles Vue in production mode and optimizes the build for the best performance.
 
-### yarn storybook
+User clicks INSERT LINE REFERENCE
 
-For Vue component development outside of the entire full-stack app.
-
-Create a story for each component that is being worked on. And some stories can be used for multi-component testing.
-
-### Q: What about Eject?
-
-No eject needed! Snowpack guarantees zero lock-in, and CSA strives for the same.
+they need to highlight the Reading Passage, click OK or SAVE, then the Reading Passage is modified with the reference <a id=“….”>
 
 
 ---
@@ -62,40 +67,6 @@ On line <PassageReference refId="text-ref"/>, the author talks about something.
 ---
 
 Here's a sample problem I'm working on you could give some input on.
-- Requirement:
-- As a test creator, I would like to create a reference to a highlighted part of the reading passage.
-- The reading passage is a text that students read and later answer questions on.
-- For example the reading passage would be on the left and the line reference would be in the question on the right side.
-- Example from the Student/Test Taker point of view:
-- highlight + lines show the relationship between the ReadingPassageReference component in the Question
-- ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Fmy-testing%2Fm9CSoXpVDH.png?alt=media&token=078dae69-ccaa-45c1-b53a-a652dbb6857f)
-- The linked page reference would be updated if the width of the content div is updated so the line numbers would line up.
-- When editing the question using TinyMCE the user would like to be able to click the "Create Passage Reference" button (implemented as a TinyMCE plugin) to insert a page reference to the currently highlighted text. If the text was not already highlighted, alert the user to try again with selected text.
-- For Discussion
-- What approach would you use to communicate between the different components involved?
-- What kinds of challenges, approaches or alternatives would you recommend?
-- How much effort is required to implement this? What parts would take the longest
-
-
-
-
-Reading Passage
-
-"Well, Prince, so Genoa and Lucca are now just family estates of the Buonapartes. But I warn you, if you don't tell me that this means war, if you still try to defend the infamies and horrors perpetrated by that Antichrist--I really believe he is Antichrist--I will have nothing more to do with you and you are no longer my friend, no longer my 'faithful slave,' as you call yourself! But how do you do? I see I have frightened you--sit down and tell me all the news."
-
-Question Editor
-
-In <INSERT LINE REFERENCE> "scarlet-liveried" most nearly means. ??
-
-A
-B
-C
-D
-
-
-User clicks INSERT LINE REFERENCE
-
-they need to highlight the Reading Passage, click OK or SAVE, then the Reading Passage is modified with the reference <a id=“….”>
 
 
 
@@ -169,3 +140,36 @@ OR: create a custom plugin
 </ReadingPassageProvider>
 
 
+
+# New Project
+
+yarn install
+
+## Available Scripts
+
+### yarn start
+
+Runs the app in the development mode.
+Open http://localhost:8080 to view it in the browser.
+
+The page will reload if you make edits.
+You will also see any lint errors in the console.
+
+### yarn test
+
+Run jest component unit tests.
+
+### yarn run build
+
+Builds the app for production to the `build/` folder.
+It correctly bundles Vue in production mode and optimizes the build for the best performance.
+
+### yarn storybook
+
+For Vue component development outside of the entire full-stack app.
+
+Create a story for each component that is being worked on. And some stories can be used for multi-component testing.
+
+### Q: What about Eject?
+
+No eject needed! Snowpack guarantees zero lock-in, and CSA strives for the same.

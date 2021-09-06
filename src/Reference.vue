@@ -7,7 +7,7 @@ export default {
   props: ['snippet-id'],
   inject: ['readingPassage'],
   computed: {
-    line: () => this.readingPassage.state[this.$props.snippetId],
+    line: () => this.readingPassage.references[this.$props.snippetId],
   },
 }
 </script>

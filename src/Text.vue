@@ -37,7 +37,6 @@ export default {
         Array.from($content.getElementsByTagName('p'))
           // get distance from top of content
           .map(($p) => $p.offsetTop - $content.offsetTop)
-
           // calculate how many lines down it is
           .map((p) => p / this.lineHeight + 1)
 
@@ -62,12 +61,10 @@ export default {
 
     // TODO: move responsibility to update line refs out of here
     // const updateLineRefs = () => {
-    //   const $refs = $content.querySelectorAll('a[id]')
+    //   const $refs =
     //   this.readingPassage.reset()
-    //   $refs.forEach(($ref) => {
-    //     const refOffset = $ref.offsetTop
-    //     const contentOffset = $content.offsetTop
-    //     const line = (refOffset - contentOffset) / this.lineHeight + 1
+    //   $content.querySelectorAll('a[id]').forEach(($ref) => {
+    //     const line = ($ref.offsetTop - $content.offsetTop) / this.lineHeight + 1
     //     this.readingPassage.update($ref.getAttribute('id'), Math.round(line))
     //   })
     // }
