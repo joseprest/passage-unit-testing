@@ -31,7 +31,7 @@ describe('ReadingPassage', () => {
       slots: { default: contentText },
       global: {
         provide: {
-          readingPassage: {
+          passage: {
             reset: () => null,
           },
         },
@@ -65,7 +65,7 @@ describe('ReadingPassage', () => {
     const { getByText, html } = render(ReadingPassage, {
       global: {
         provide: {
-          readingPassage: { reset: () => null },
+          passage: { reset: () => null },
         },
       },
       props: {
@@ -112,7 +112,7 @@ describe('ReadingPassage', () => {
     const { getByText, html } = render(ReadingPassage, {
       global: {
         provide: {
-          readingPassage: { reset: () => null },
+          passage: { reset: () => null },
         },
       },
       props: {

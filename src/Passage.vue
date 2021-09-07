@@ -1,20 +1,23 @@
+<template>
+  <div class="passage">
+    <slot></slot>
+  </div>
+</template>
+
 <script lang="ts">
 import { reactive } from 'vue'
-import ReadingPassage from './Text.vue'
-import ReadingPassageReference from './Reference.vue'
 
 export default {
-  components: {
-    ReadingPassage,
-    ReadingPassageReference,
-  },
   provide: {
-    readingPassage: reactive({
+    passage: {
       reset() {
-        this.references = {}
+        this.references = reactive({})
       },
-      references: {},
-    }),
+      references: reactive({}),
+    },
   },
 }
 </script>
+
+<style>
+</style>

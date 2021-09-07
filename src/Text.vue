@@ -10,7 +10,7 @@ export default {
       lineHeight: 0,
     }
   },
-  inject: ['readingPassage'],
+  inject: ['passage'],
   props: ['every', 'testContentInjector'],
   computed: {
     lines() {
@@ -59,29 +59,25 @@ export default {
       this.testContentInjector.call(this, $content)
     }
 
-    // TODO: move responsibility to update line refs out of here
-    // const updateLineRefs = () => {
-    //   const $refs =
-    //   this.readingPassage.reset()
-    //   $content.querySelectorAll('a[id]').forEach(($ref) => {
-    //     const line = ($ref.offsetTop - $content.offsetTop) / this.lineHeight + 1
-    //     this.readingPassage.update($ref.getAttribute('id'), Math.round(line))
-    //   })
-    // }
+    const updateLineRefs = () => {
+      $content.querySelectorAll('a[id]').forEach(($ref) => {
+        let line =
+          this.every !== 'p'
+            ? ($ref.offsetTop - $content.offsetTop) / this.lineHeight + 1
+            : // TODO: assertions about the DOM structure
+              Array.from($content.children).indexOf($ref.parentNode) + 1
+        this.passage.references[$ref.getAttribute('id')] = Math.round(line)
+      })
+    }
 
     const updateView = () => {
       this.lineHeight = getLineHeight($content)
       this.contentHeight = $content.offsetHeight
+      // TODO: only run once in p mode
+      updateLineRefs()
     }
 
-    let animationId
-    const requestUpdate = () => {
-      if (animationId) {
-        window.cancelAnimationFrame(animationId)
-      }
-      animationId = window.requestAnimationFrame(updateView)
-    }
-
+    const requestUpdate = animationCallback(updateView)
     const observeContentHeight = () => {
       const resizeObserver = new ResizeObserver((entries) => {
         for (let entry of entries) {
@@ -101,6 +97,18 @@ export default {
     updateView()
     return observeContentHeight()
   },
+}
+
+/**
+ * debounce multiple animationFrame requests,
+ * tracking animationId state in the closure
+ */
+const animationCallback = (callback) => {
+  let animationId
+  return () => {
+    if (animationId) window.cancelAnimationFrame(animationId)
+    animationId = window.requestAnimationFrame(callback)
+  }
 }
 </script>
 

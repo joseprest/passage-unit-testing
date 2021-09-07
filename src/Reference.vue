@@ -4,10 +4,12 @@
 
 <script>
 export default {
-  props: ['snippet-id'],
-  inject: ['readingPassage'],
+  props: ['refId'],
+  inject: ['passage'],
   computed: {
-    line: () => this.readingPassage.references[this.$props.snippetId],
+    line() {
+      return this.passage?.references[this.$props.refId] ?? 0
+    },
   },
 }
 </script>
