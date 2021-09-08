@@ -20,14 +20,14 @@ const Template = (args) => ({
     },
     // And then the `args` are bound to your component with `v-bind="args"`
     template: `
-<ReadingPassage v-bind="args">
-<p>Line 1: good</p>
-<p>Line 2: abso-<br>lutely</p>
-<p>Line 3: free</p>
-<p>Line 4: snore</p>
-<p>Line 5: alive</p>
-<p>Line 6: drips</p>
-</ReadingPassage>
+<PassageText v-bind="args">
+<p>Paragraph 1: good</p>
+<p>Paragraph 2: abso-<br>lutely</p>
+<p>Paragraph 3: free</p>
+<p>Paragraph 4: snore</p>
+<p>Paragraph 5: alive</p>
+<p>Paragraph 6: drips</p>
+</PassageText>
 `,
 });
 
