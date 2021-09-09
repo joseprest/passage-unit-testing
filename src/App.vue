@@ -2,12 +2,10 @@
   <div>
     <Passage>
       <Question>
-        <p>
-          On paragraph <PassageReference refId="text-ref" />, the author talks
-          about something. What do they mean?
-        </p>
+        On line <a href="#passage-text-ref"></a>, the author talks about
+        something. What do they mean?
       </Question>
-      <PassageText every="p">
+      <Text every="1">
         <p id="p1">
           "Well, Prince, so Genoa and Lucca are now just family estates of the
           Buonapartes. But I warn you, if you don't tell me that this means war,
@@ -71,23 +69,21 @@
           put in an appearance there," said the prince. "My daughter is coming
           for me to take me there."
         </p>
-      </PassageText>
+      </Text>
     </Passage>
   </div>
 </template>
 
 <script>
-import PassageText from './Text.vue'
-import PassageReference from './Reference.vue'
-import PassageQuestion from './Question'
+import Text from './Text.vue'
+import Question from './Question'
 import Passage from './Passage'
 
 export default {
   components: {
     Passage,
-    // PassageQuestion,
-    PassageReference,
-    PassageText,
+    Question,
+    Text,
   },
 }
 </script>

@@ -2,13 +2,19 @@
   <span>{{ line }}</span>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   props: ['refId'],
   inject: ['passage'],
   computed: {
     line() {
-      return this.passage?.references[this.$props.refId] ?? 0
+      if (!this.passage) {
+        return 'Missing <Passage> container'
+      }
+      return (
+        this.passage.references[this.$props.refId] ??
+        `No page ref: ${this.$props.refId}`
+      )
     },
   },
 }
