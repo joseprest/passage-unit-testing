@@ -28,7 +28,7 @@ export default {
 
       const linesEvery = (every) =>
         Array.from({ length: lineCount }, (_, i) => i + 1).filter(
-          (i) => !(i % every)
+          (i) => !(i % every) || i == 1 || i == lineCount
         )
       const markOffset = (offset, value) => (lines[offset - 1] = String(value))
 

@@ -1,5 +1,5 @@
 import { h, defineComponent, VNode } from 'vue'
-import Reference from './Reference'
+import Reference from './Reference.vue'
 
 export default defineComponent({
   render() {
@@ -8,11 +8,12 @@ export default defineComponent({
   },
 })
 
-const isPassageRefAsAnchorNode = (node: VNode) => node.type === 'a' && node.props.href.startsWith('#passage-')
+const isPassageRefAsAnchorNode = (node: VNode) =>
+  node.type === 'a' && node.props.href.startsWith('#passage-')
 
 function replacePassageRefAsAnchorNode(nodes: VNode[]) {
   const passageRefNodes = nodes.filter(isPassageRefAsAnchorNode)
-  passageRefNodes.forEach(passageRefNode => {
+  passageRefNodes.forEach((passageRefNode) => {
     const nodeIndex = nodes.indexOf(passageRefNode)
     const refId = passageRefNode.props.href.slice(9)
     nodes[nodeIndex] = h(Reference, { refId }, null)
