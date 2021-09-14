@@ -23,12 +23,14 @@ export default {
       const every = this.every ?? 1
       const byLine = every !== 'p'
       const lineCount = this.contentHeight / this.lineHeight
+      // console.log('[contentHeight]', this.contentHeight, this.lineHeight)
+
       // array of empty (undefined) line labels, length of total displayed line count
       const lines = Array.from({ length: lineCount })
 
       const linesEvery = (every) =>
         Array.from({ length: lineCount }, (_, i) => i + 1).filter(
-          (i) => !(i % every) || i == 1 || i == lineCount
+          (i) => !(i % every)
         )
       const markOffset = (offset, value) => (lines[offset - 1] = String(value))
 
@@ -43,6 +45,7 @@ export default {
       if (byLine) {
         linesEvery(every).forEach((offset) => markOffset(offset, offset))
       } else {
+        console.log('[paragraphLineNumbers]', paragraphLineNumbers())
         paragraphLineNumbers().forEach((offset, index) =>
           markOffset(offset, index + 1)
         )
