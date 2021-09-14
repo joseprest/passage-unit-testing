@@ -1,20 +1,21 @@
 import { mount } from '@vue/test-utils'
-// import Text from '@/components/Text.vue'
 import Passage from '@/components/Passage.vue'
 
-describe('Passage.vue', () => {
+describe('Passage', () => {
   it('renders single line numbers', () => {
-    // const wrapper = mount(Text, {
-    //   slots: {
-    //     default: `
-    //   <p>Line 1</p>
-    //   <p>Line 2</p>
-    //   `,
-    //   },
-    // })
-    const wrapper = mount(Passage)
+    const wrapper = mount(Passage, {
+      slots: {
+        default: `
+        <Text>
+          <p>Line 1</p>
+          <p>Line 2</p>
+        </Text>
+      `,
+      },
+    })
+    // const wrapper = mount(Text, )
     console.log(wrapper.html())
-    //     expect(wrapper.html()).toBe(`
+    // expect(wrapper.html()).toBe(`
     //   <div class="line-numbers">
     //     <div>1</div>
     //     <div>2</div>
@@ -22,7 +23,7 @@ describe('Passage.vue', () => {
     //   <div class="content" style="line-height: 20px;">
     //     <p>Line 1</p>
     //     <p>Line 2</p>
-    // </div>
+    //   </div>
     //     `)
   })
 })
