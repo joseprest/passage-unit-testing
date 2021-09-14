@@ -1,22 +1,29 @@
 import { h, defineComponent, VNode } from 'vue'
 import Reference from './Reference.vue'
 
-export default defineComponent({
-  render() {
-    const nodes = Array.from(this.$slots.default() as VNode[])
-    return h('div', {}, replacePassageRefAsAnchorNode(nodes))
-  },
-})
+const PASSAGE_REF_MARK = '#passage-'
 
-const isPassageRefAsAnchorNode = (node: VNode) =>
-  node.type === 'a' && node.props.href.startsWith('#passage-')
+const isPassageRefAsAnchorNode = (node: VNode, keyword: string) =>
+  node.type === 'a' && node?.props?.href?.startsWith(keyword)
 
-function replacePassageRefAsAnchorNode(nodes: VNode[]) {
-  const passageRefNodes = nodes.filter(isPassageRefAsAnchorNode)
-  passageRefNodes.forEach((passageRefNode) => {
-    const nodeIndex = nodes.indexOf(passageRefNode)
-    const refId = passageRefNode.props.href.slice(9)
-    nodes[nodeIndex] = h(Reference, { refId }, null)
+const replacePassageRefAsAnchorNode = (nodes: VNode[]) => {
+  return nodes.map((node) => {
+    if (isPassageRefAsAnchorNode(node, PASSAGE_REF_MARK)) {
+      const refId = node?.props?.href.substr(PASSAGE_REF_MARK.length)
+      if (refId) {
+        return h(Reference, { refId })
+      }
+    }
+    return node
   })
-  return nodes
+}
+
+export default {
+  setup(props: any, { slots }) {
+    return () => {
+      const nodes: VNode[] = Array.from(slots.default())
+      const resultNodes = replacePassageRefAsAnchorNode(nodes)
+      return h('div', {}, resultNodes)
+    }
+  },
 }

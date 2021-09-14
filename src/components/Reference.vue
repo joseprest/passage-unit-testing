@@ -1,23 +1,23 @@
 <template>
-  <span>{{ line }}</span>
+  <span>{{ getRefline }}</span>
 </template>
 
 <script lang="ts">
 export default {
-  props: ['refId'],
+  props: { refId: String },
   inject: ['passage'],
   computed: {
-    line() {
+    getRefline(): number {
       if (!this.passage) {
-        return 'Missing <Passage> container'
+        throw new Error('Missing <Passage> container')
       }
-      return (
-        this.passage.references[this.$props.refId] ??
-        `No page ref: ${this.$props.refId}`
-      )
+
+      if (!this.refId) {
+        throw new Error('Missing Reference Id')
+      }
+      const { references } = this.passage
+      return references[this.refId] || `No page ref: ${this.refId}`
     },
   },
 }
 </script>
-
-<style lang="scss"></style>

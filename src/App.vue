@@ -5,7 +5,7 @@
         On line <a href="#passage-text-ref"></a>, the author talks about
         something. What do they mean?
       </Question>
-      <Text every="p">
+      <Text every="1">
         <p id="p1">
           "Well, Prince, so Genoa and Lucca are now just family estates of the
           Buonapartes. But I warn you, if you don't tell me that this means war,
@@ -76,7 +76,7 @@
 
 <script>
 import Text from './components/Text.vue'
-import Question from './components/Question'
+import Question from './components/Question.ts'
 import Passage from './components/Passage.vue'
 
 export default {
