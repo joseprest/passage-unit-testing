@@ -19,7 +19,7 @@ const replacePassageRefAsAnchorNode = (nodes: VNode[]) => {
 }
 
 export default {
-  setup(props: any, { slots }) {
+  setup(props: any, { slots }: any) {
     return () => {
       const nodes: VNode[] = Array.from(slots.default())
       const resultNodes = replacePassageRefAsAnchorNode(nodes)
