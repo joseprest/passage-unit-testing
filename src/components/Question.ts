@@ -1,4 +1,4 @@
-import { h, defineComponent, VNode } from 'vue'
+import { h, VNode } from 'vue'
 import Reference from './Reference.vue'
 
 const PASSAGE_REF_MARK = '#passage-'

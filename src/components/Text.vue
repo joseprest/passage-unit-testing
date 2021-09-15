@@ -106,6 +106,7 @@ export default {
     }
 
     updateView()
+
     return observeContentHeight()
   },
 }

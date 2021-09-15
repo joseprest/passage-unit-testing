@@ -8,10 +8,11 @@ const PassageComponent = {
   template: `
   <Passage>
     <Question>
-      <slot name="question"></slot>
+      Ref is on the line <a href="#passage-text-ref"></a>.
     </Question>
+    
     <Text :every="every" :testContentInjector="testContentInjector">  
-     <slot name="content"></slot>
+      <slot></slot>
     </Text> 
   </Passage>`,
   props: ['every', 'testContentInjector'],
@@ -28,25 +29,55 @@ const redefineProperty = ($el: any, propertyName: any, value: any) => {
 }
 
 const makeLineTestContentInjector = (contentText: any) => {
-  return ($content: any) => {
-    $content.style.setProperty('line-height', '20px')
+  return (content: any) => {
+    content.style.setProperty('line-height', '20px')
     redefineProperty(
-      $content,
+      content,
       'offsetHeight',
       contentText.trim().split('\n').length * 20
     )
+    let lineCount = 0
+    Array.from(content.getElementsByTagName('p')).forEach((p: any) => {
+      redefineProperty(p, 'offsetTop', lineCount * 20)
+      let smallIdx = 0
+      Array.from(p.children).forEach((child: any) => {
+        redefineProperty(child, 'offsetTop', (lineCount + smallIdx) * 20)
+        if (child.tagName.toLowerCase() == 'br') {
+          smallIdx++
+        }
+      })
+      lineCount += smallIdx + 1
+    })
   }
 }
 
+const makeParagraphTestContentInjector = (contentText: any) => {
+  return ($content: any) => {
+    $content.style.setProperty('line-height', '20px')
+    // default paragraph offsets
+    const $ps = $content.getElementsByTagName('p')
+    let offsetTop = 0
+    Array.from($ps).forEach(($p, index) => {
+      redefineProperty($p, 'offsetTop', offsetTop)
+      if (index == 0) {
+        offsetTop += 40
+      } else {
+        offsetTop += 20
+      }
+    })
+    redefineProperty(
+      $content,
+      'offsetHeight',
+      contentText.trim().split('\n').length * 20 + 20
+    )
+  }
+}
 const getMultipleLines = (contentText: any) => {
   return contentText.trim().split('\n').join('<br/>')
 }
 
 describe('Passage', () => {
   it('renders single line numbers', async () => {
-    const questionText = `\
-      Ref is on the line <a href="#passage-text-ref"></a>.
-    `
     const contentText = `\
     <p>Line 1</p>
     <p>Line 2 <a id="text-ref"></a>
@@ -58,15 +89,61 @@ describe('Passage', () => {
         testContentInjector: makeLineTestContentInjector(contentText),
       },
       slots: {
-        content: getMultipleLines(contentText),
-        question: questionText,
+        default: getMultipleLines(contentText),
       },
     })
     await nextTick()
     const wapper_html = wrapper.html()
-    console.log(wapper_html)
-    // expect(wapper_html).toContain(`<div>1</div>`)
-    // expect(wapper_html).toContain(`<div>2</div>`)
-    // expect(wapper_html).toContain(`<div>3</div>`)
+    expect(wapper_html).toContain(`<span>2</span>`)
+  })
+
+  it('renders 5 line numbers', async () => {
+    const contentText = `\
+    <p>Line 1</p>
+    <p>Line 2
+    Line 3</p>
+    <p>Line 4 </p>
+    <p>Line 5 </p>
+    <p>Line 6 <a id="text-ref"></a> </p>
+    `
+    const wrapper = await mount(PassageComponent, {
+      props: {
+        every: 5,
+        testContentInjector: makeLineTestContentInjector(contentText),
+      },
+      slots: {
+        default: getMultipleLines(contentText),
+      },
+    })
+    await nextTick()
+    const wapper_html = wrapper.html()
+    // console.log(wapper_html)
+    expect(wapper_html).toContain(`<span>6</span>`)
+  })
+
+  it('renders every paragraph', async () => {
+    const contentText = `\
+    <p>Line 1<br/>is 40 high <br/></p>
+    <p>Line 2 <a id="text-ref"></a></p>
+    <p>Line 3</p>
+    `
+    const wrapper = await mount(PassageComponent, {
+      props: {
+        global: {
+          provide: {
+            passage: { reset: () => null },
+          },
+        },
+        every: 'p',
+        testContentInjector: makeParagraphTestContentInjector(contentText),
+      },
+      slots: {
+        default: contentText,
+      },
+    })
+    await nextTick()
+    const res_html = wrapper.html()
+    // console.log(res_html)
+    expect(res_html).toContain(`<span>2</span>`)
   })
 })
