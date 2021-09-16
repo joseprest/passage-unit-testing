@@ -45,12 +45,12 @@ const Template2 = (args) => ({
 export const SavePassageProblem = Template1.bind({})
 export const LoadPassageProblemFromLocalStorage = Template2.bind({})
 
-const { content, question } = JSON.parse(
-  localStorage.getItem('passage') || '{}'
-)
+const passage = JSON.parse(localStorage.getItem('passage') || '{}')
 
+const content = passage.content || '<p>test question</p>'
+const question = passage.question || '<p>test content</p>'
 LoadPassageProblemFromLocalStorage.args = {
   every: 1,
-  question: question.split('🔗').join('') || '<p>1</p>',
-  content: content.split('🔗').join('') || '<p>1</p>',
+  question: question.split('🔗').join(''),
+  content: content.split('🔗').join(''),
 }
