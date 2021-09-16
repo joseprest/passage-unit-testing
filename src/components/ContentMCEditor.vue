@@ -26,7 +26,7 @@ export default {
     },
     plugins: {
       type: [String, Array],
-      default: 'preview',
+      default: 'preview paste',
     },
     toolbar: {
       type: [String, Array],
@@ -42,7 +42,8 @@ export default {
         toolbar: this.toolbar,
         branding: false,
         menubar: true,
-
+        invalid_styles: 'font-size font-family',
+        paste_as_text: true,
         setup: (editor: any) => {
           editor.ui.registry.addButton('customInsertButton', {
             text: 'Create Passage Reference',

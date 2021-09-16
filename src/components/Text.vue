@@ -16,7 +16,8 @@ export default {
     lineNums() {
       // line calc requires mounted DOM
       const content = this.$refs.content
-      if (!this.isMounted || !content) {
+      console.log('[lineNums content]', content)
+      if (!this.isMounted || !content || !this.lineHeight) {
         return []
       }
 

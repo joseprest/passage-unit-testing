@@ -31,10 +31,13 @@ const Template2 = (args) => ({
   },
   // And then the `args` are bound to your component with `v-bind="args"`
   template: `
+  
   <Passage>
+    <h3>Question</h3>
     <Question>     
      ${args.question}
     </Question>
+    <h3> Content </h3>
     <Text :every="args.every">
       ${args.content}   
     </Text>
@@ -47,8 +50,8 @@ export const LoadPassageProblemFromLocalStorage = Template2.bind({})
 
 const passage = JSON.parse(localStorage.getItem('passage') || '{}')
 
-const content = passage.content || '<p>test question</p>'
-const question = passage.question || '<p>test content</p>'
+const content = passage.content || ''
+const question = passage.question || ''
 LoadPassageProblemFromLocalStorage.args = {
   every: 1,
   question: question.split('🔗').join(''),

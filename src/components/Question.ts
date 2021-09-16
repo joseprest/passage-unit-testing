@@ -24,9 +24,16 @@ const replacePassageRefAsAnchorNode = (nodes: VNode[]) => {
 export default {
   setup(props: any, { slots }: any) {
     return () => {
-      const nodes: VNode[] = Array.from(slots.default())
-      const resultNodes = replacePassageRefAsAnchorNode(nodes)
-      return h('div', {}, resultNodes)
+      try {
+        if (slots?.default) {
+          const nodes: VNode[] = Array.from(slots?.default() || [])
+          const resultNodes = replacePassageRefAsAnchorNode(nodes)
+          return h('div', {}, resultNodes)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+      return h('div', {})
     }
   },
 }
