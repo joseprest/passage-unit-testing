@@ -1,3 +1,4 @@
+import { isArray } from '@vue/shared'
 import { h, VNode } from 'vue'
 import Reference from './Reference.vue'
 
@@ -14,6 +15,8 @@ const replacePassageRefAsAnchorNode = (nodes: VNode[]) => {
         return h(Reference, { refId })
       }
     }
+    if (node.children && isArray(node.children))
+      node.children = replacePassageRefAsAnchorNode(node.children as VNode[])
     return node
   })
 }

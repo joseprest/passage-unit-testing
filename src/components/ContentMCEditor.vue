@@ -59,7 +59,7 @@ export default {
         },
       },
       myValue: this.value,
-      refPattern: '<a href="#passage-text-ref">🔗</a>',
+      refPattern: '<a id="text-ref"></a>',
       isPatternExist: false,
     }
   },

@@ -45,7 +45,7 @@ export default {
     return {
       contentValue: '',
       questionValue: '',
-      questionRef: '<a id="text-ref">🔗</a>',
+      questionRef: '<a href="#passage-text-ref">🔗</a>',
     }
   },
   methods: {
@@ -54,6 +54,7 @@ export default {
     },
     onInsertPassageRef() {
       this.questionValue = this.questionRef + this.questionValue
+      console.log('[questionValue]', this.questionValue)
     },
     onRemovePassageRef() {
       this.questionValue = this.questionValue.split(this.questionRef).join('')
@@ -89,12 +90,12 @@ export default {
   },
 }
 </script>
-<style scoped lang="scss">
+<style scoped>
 .tinymce-editors {
   display: flex;
-  div {
-    flex: 50%;
-  }
+}
+.tinymce-editors div {
+  flex: 50%;
 }
 .actions-group {
   margin-top: 20px;
@@ -104,8 +105,5 @@ export default {
   width: 80px;
   height: 30px;
   margin: 10px 10px;
-
-  &-primary {
-  }
 }
 </style>
