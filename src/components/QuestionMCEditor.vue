@@ -26,12 +26,31 @@ export default {
     },
     plugins: {
       type: [String, Array],
-      default: 'preview',
+      default: 'preview paste',
+    },
+    refInserted: {
+      type: Boolean,
+      default: false,
     },
     toolbar: {
       type: [String, Array],
       default:
-        'undo redo | formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lists image media table | removeformat',
+        'undo redo | formatselect | bold italic forecolor backcolor | passageLink | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lists image media table',
+    },
+    menubar: {
+      type: Object,
+      default: {
+        file: { title: 'File', items: 'newdocument' },
+        edit: {
+          title: 'Edit',
+          items: 'undo redo | cut copy paste pastetext | selectall',
+        },
+        format: {
+          title: 'Format',
+          items:
+            'bold italic underline strikethrough superscript subscript codeformat | formats blockformats align | forecolor backcolor | removeformat',
+        },
+      },
     },
   },
   data() {
@@ -41,9 +60,17 @@ export default {
         plugins: this.plugins,
         toolbar: this.toolbar,
         branding: false,
-        menubar: true,
+        menu: this.menubar,
+        setup: (editor: any) => {
+          this.editor = editor
+        },
       },
       myValue: this.value,
+      editor: {
+        type: [Object],
+        default: null,
+      },
+      questionRef: '<a href="#passage-text-ref">🔗</a>',
     }
   },
   mounted() {},
@@ -58,6 +85,15 @@ export default {
     },
     myValue(newValue) {
       this.$emit('input', newValue)
+    },
+    refInserted(val) {
+      if (this.editor) {
+        if (val) {
+          this.editor.insertContent(this.questionRef)
+        } else {
+          this.myValue = this.myValue.split(this.questionRef).join('')
+        }
+      }
     },
   },
 }

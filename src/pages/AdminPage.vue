@@ -7,7 +7,11 @@
         @removePassageRef="onRemovePassageRef"
         :value="contentValue"
       />
-      <QuestionMCEditor @input="onUpdateQuestion" :value="questionValue" />
+      <QuestionMCEditor
+        @input="onUpdateQuestion"
+        :value="questionValue"
+        :refInserted="refInserted"
+      />
     </div>
     <div class="actions-group">
       <button class="btn btn-primary" @click="onSavePassageProblem">
@@ -45,7 +49,7 @@ export default {
     return {
       contentValue: '',
       questionValue: '',
-      questionRef: '<a href="#passage-text-ref">🔗</a>',
+      refInserted: false,
     }
   },
   methods: {
@@ -53,11 +57,10 @@ export default {
       this.contentValue = value
     },
     onInsertPassageRef() {
-      this.questionValue = this.questionRef + this.questionValue
-      console.log('[questionValue]', this.questionValue)
+      this.refInserted = true
     },
     onRemovePassageRef() {
-      this.questionValue = this.questionValue.split(this.questionRef).join('')
+      this.refInserted = false
     },
     onUpdateQuestion(value: string) {
       this.questionValue = value

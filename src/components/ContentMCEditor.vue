@@ -31,7 +31,22 @@ export default {
     toolbar: {
       type: [String, Array],
       default:
-        'undo redo | formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lists image media table | removeformat | customInsertButton',
+        'undo redo | formatselect | bold italic forecolor backcolor | passageLink | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lists image media table | removeformat',
+    },
+    menubar: {
+      type: Object,
+      default: {
+        file: { title: 'File', items: 'newdocument' },
+        edit: {
+          title: 'Edit',
+          items: 'undo redo | cut copy paste pastetext | selectall',
+        },
+        format: {
+          title: 'Format',
+          items:
+            'bold italic underline strikethrough superscript subscript codeformat | formats blockformats align | forecolor backcolor | removeformat | passageLink',
+        },
+      },
     },
   },
   data() {
@@ -41,12 +56,14 @@ export default {
         plugins: this.plugins,
         toolbar: this.toolbar,
         branding: false,
-        menubar: true,
+        menu: this.menubar,
         invalid_styles: 'font-size font-family',
         paste_as_text: true,
         setup: (editor: any) => {
-          editor.ui.registry.addButton('customInsertButton', {
-            text: 'Create Passage Reference',
+          // passage Link Button
+          editor.ui.registry.addButton('passageLink', {
+            icon: 'link',
+            tooltip: 'Create Passage Reference',
             onAction: (_: any) => {
               const selectedContent = editor.selection.getContent()
               if (!selectedContent) {
@@ -70,12 +87,10 @@ export default {
       this.myValue = ''
     },
     onInputPassageRef() {
-      console.log('onInputPassageRef')
       this.isPatternExist = true
       this.$emit('insertPassageRef')
     },
     onRemovePassageRef() {
-      console.log('removePassageRef')
       this.isPatternExist = false
       this.$emit('removePassageRef')
     },
